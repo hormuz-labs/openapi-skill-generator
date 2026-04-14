@@ -6,8 +6,6 @@ use axum::{
 
 use crate::{
     error::AppError,
-    generator::{archive::create_zip_archive, markdown::generate_markdown_files},
-    schema::parser::parse_schema,
 };
 
 #[allow(dead_code)]
@@ -38,14 +36,7 @@ pub async fn convert_schema(mut multipart: Multipart) -> Result<impl IntoRespons
         return Err(AppError::Parse("No 'schema' file found in request".into()));
     }
 
-    // 1. Parse Schema
-    let schema = parse_schema(&file_data)?;
-
-    // 2. Generate Markdown files
-    let files = generate_markdown_files(&schema);
-
-    // 3. Create ZIP Archive
-    let zip_bytes = create_zip_archive(files)?;
+    let zip_bytes = crate::generator::process_openapi_to_zip(&file_data)?;
 
     // 4. Return as downloadable file
     let mut headers = HeaderMap::new();
