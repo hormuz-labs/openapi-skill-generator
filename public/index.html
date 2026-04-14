@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" class="antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strait of Swagger | OpenAPI to Agent Skills</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@lottiefiles/dotlottie-web/+esm"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        'gradient-x': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center'
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center'
+                            },
+                        },
+                        'float': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-950 text-slate-200 min-h-screen flex flex-col font-sans selection:bg-indigo-500/30 overflow-hidden relative">
+    
+    <!-- Animated background blob -->
+    <div class="absolute top-[-20%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-indigo-600/20 blur-[120px] mix-blend-screen animate-float pointer-events-none"></div>
+    <div class="absolute bottom-[-20%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-purple-600/20 blur-[120px] mix-blend-screen animate-float pointer-events-none" style="animation-delay: -3s;"></div>
+
+    <!-- Header -->
+    <header class="w-full p-6 flex justify-between items-center z-10 border-b border-white/5 bg-slate-950/50 backdrop-blur-md">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20">
+                🚢
+            </div>
+            <h1 class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
+                Strait of Swagger
+            </h1>
+        </div>
+        <div class="text-sm text-slate-500 font-medium">Rust &bull; Axum &bull; Agent Skills</div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center p-6 z-10">
+        <div class="w-full max-w-lg">
+            
+            <div class="text-center mb-10">
+                <h2 class="text-4xl font-extrabold mb-4 tracking-tight">Navigate the <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">Strait of Swagger</span>.</h2>
+                <p class="text-slate-400 text-lg">Safely escort your massive OpenAPI payloads through the narrow chokepoint of LLM context windows. We'll refine your crude JSON into high-octane Agent Skills.</p>
+            </div>
+
+            <!-- Card Container -->
+            <div class="bg-slate-900/50 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl relative overflow-hidden group">
+                
+                <!-- Glow effect on hover -->
+                <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+
+                <form id="uploadForm" class="relative z-10 flex flex-col gap-6">
+                    
+                    <!-- Dropzone -->
+                    <div id="dropzone" class="border-2 border-dashed border-slate-700/50 hover:border-indigo-500/50 hover:bg-indigo-500/5 bg-slate-800/30 rounded-2xl p-10 flex flex-col items-center justify-center transition-all duration-300 cursor-pointer group">
+                        
+                        <div class="w-16 h-16 mb-4 rounded-full bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-inner border border-white/5">
+                            <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                            </svg>
+                        </div>
+                        
+                        <h3 class="text-lg font-medium text-slate-200 mb-1" id="dropzoneText">Drag & Drop your schema</h3>
+                        <p class="text-sm text-slate-500 mb-4">or click to browse (.json, .yaml)</p>
+                        
+                        <input type="file" id="schema" name="schema" accept=".json,.yaml,.yml" class="hidden" required>
+                        
+                        <div id="fileBadge" class="hidden items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-sm font-medium">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span id="fileName">file.json</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Button -->
+                    <button type="submit" id="submitBtn" class="w-full relative overflow-hidden rounded-xl bg-indigo-600 px-6 py-4 text-white font-semibold shadow-[0_0_40px_-10px_rgba(79,70,229,0.5)] hover:bg-indigo-500 hover:shadow-[0_0_60px_-15px_rgba(79,70,229,0.7)] hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:bg-indigo-600 disabled:hover:shadow-none">
+                        <span id="btnText" class="relative z-10 flex items-center justify-center gap-2">
+                            Generate Skills Zip
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </span>
+                    </button>
+                </form>
+
+                <!-- Processing State (Hidden by default) -->
+                <div id="processingState" class="hidden absolute inset-0 bg-slate-900/95 backdrop-blur-sm z-20 flex flex-col items-center justify-center rounded-3xl">
+                    <canvas id="lottieCanvas" class="w-48 h-48 mb-4"></canvas>
+                    <p class="text-indigo-300 font-medium animate-pulse">Compiling Agent Skills...</p>
+                </div>
+                
+                <!-- Result Message -->
+                <div id="result" class="hidden mt-6 p-4 rounded-xl border text-sm text-center"></div>
+
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { DotLottie } from 'https://cdn.jsdelivr.net/npm/@lottiefiles/dotlottie-web/+esm';
+
+        // Initialize Lottie (using the cool animation URL from the skill docs)
+        const dotLottie = new DotLottie({
+            canvas: document.getElementById('lottieCanvas'),
+            src: 'https://lottie.host/4db68bbd-31f6-4cd8-84eb-189de081159a/IGmMCqhzpt.lottie',
+            autoplay: false,
+            loop: true
+        });
+
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('schema');
+        const fileNameDisplay = document.getElementById('fileName');
+        const fileBadge = document.getElementById('fileBadge');
+        const dropzoneText = document.getElementById('dropzoneText');
+        const form = document.getElementById('uploadForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const processingState = document.getElementById('processingState');
+        const resultDiv = document.getElementById('result');
+
+        // Drag & Drop logic
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, () => {
+                dropzone.classList.add('border-indigo-500', 'bg-indigo-500/10');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, () => {
+                dropzone.classList.remove('border-indigo-500', 'bg-indigo-500/10');
+            }, false);
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            fileInput.files = files;
+            updateUIForFile(files[0]);
+        });
+
+        dropzone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                updateUIForFile(e.target.files[0]);
+            }
+        });
+
+        function updateUIForFile(file) {
+            if (file) {
+                fileNameDisplay.textContent = file.name;
+                fileBadge.classList.remove('hidden');
+                fileBadge.classList.add('flex');
+                dropzoneText.textContent = 'File selected';
+                resultDiv.classList.add('hidden'); // Clear errors
+            }
+        }
+
+        // Form Submit
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!fileInput.files || fileInput.files.length === 0) return;
+
+            const formData = new FormData();
+            formData.append('schema', fileInput.files[0]);
+
+            // Show Processing UI
+            processingState.classList.remove('hidden');
+            dotLottie.play();
+            resultDiv.classList.add('hidden');
+
+            try {
+                // Fake delay to show off the cool animation just a bit
+                await new Promise(r => setTimeout(r, 1500));
+
+                const response = await fetch('/api/convert', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = 'skills.zip';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    
+                    // Success!
+                    confetti({
+                        particleCount: 100,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: ['#4f46e5', '#a855f7', '#ec4899']
+                    });
+
+                    resultDiv.className = 'mt-6 p-4 rounded-xl border text-sm text-center border-green-500/30 bg-green-500/10 text-green-300 shadow-[0_0_15px_rgba(34,197,94,0.1)]';
+                    resultDiv.innerHTML = `<strong>Success!</strong><br>Agent skills downloaded as skills.zip`;
+                    fileInput.value = ''; // Reset
+                    fileBadge.classList.add('hidden');
+                    dropzoneText.textContent = 'Drag & Drop another schema';
+
+                } else {
+                    const data = await response.json();
+                    resultDiv.className = 'mt-6 p-4 rounded-xl border text-sm text-center border-red-500/30 bg-red-500/10 text-red-300';
+                    resultDiv.textContent = `Error: ${data.error}`;
+                }
+            } catch (error) {
+                resultDiv.className = 'mt-6 p-4 rounded-xl border text-sm text-center border-red-500/30 bg-red-500/10 text-red-300';
+                resultDiv.textContent = 'Network error occurred.';
+            } finally {
+                // Hide Processing UI
+                processingState.classList.add('hidden');
+                dotLottie.stop();
+                resultDiv.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
