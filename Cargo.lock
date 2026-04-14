@@ -630,6 +630,22 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9f7c3e4beb33f85d45ae3e3a1792185706c8e16d043238c593331cc7cd313b50"
 
 [[package]]
+name = "openapi-skill-generator"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "bytes",
+ "openapiv3",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "thiserror",
+ "tokio",
+ "tower-http",
+ "zip",
+]
+
+[[package]]
 name = "openapiv3"
 version = "2.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -932,22 +948,6 @@ name = "subtle"
 version = "2.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
-
-[[package]]
-name = "swagger2skills"
-version = "0.1.0"
-dependencies = [
- "axum",
- "bytes",
- "openapiv3",
- "serde",
- "serde_json",
- "serde_yaml",
- "thiserror",
- "tokio",
- "tower-http",
- "zip",
-]
 
 [[package]]
 name = "syn"
